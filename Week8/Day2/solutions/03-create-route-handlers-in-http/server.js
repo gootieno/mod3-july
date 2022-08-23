@@ -51,20 +51,45 @@ const server = http.createServer((req, res) => {
       return res.end(resBody);
     }
 
-    if (req.method === "GET" && req.url.startsWith("/dogs")) {
-      console.log("req url /dogs ", req.url);
-
+    // GET /dogs/:dogId // ex: /dogs/3
+    if (req.method === "GET" && req.url.startsWith("/dogs/")) {
+      const urlParts = req.url.split("/"); // ['', 'dogs', '3']
+      if (urlParts.length === 3) {
+        const dogId = urlParts[2];
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/plain");
+        res.write("Dog details for dogId: ");
+        res.write(dogId);
+        return res.end();
+      }
+    }
+    // POST /dogs
+    if (req.method === "POST" && req.url === "/dogs") {
+      res.statusCode = 302;
+      res.setHeader("Location", "/dogs/" + getNewDogId());
+      return res.end();
+    }
+    // POST /dogs/:dogId
+    if (req.method === "POST" && req.url.startsWith("/dogs/")) {
       const urlParts = req.url.split("/");
-
-      console.log("url parts ", urlParts);
-
-      const dogId = urlParts[urlParts.length - 1];
-
-      console.log("dog id", dogId);
-
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "text/plain");
-      return res.end(`Dog details for dog ${dogId}`);
+      if (urlParts.length === 3) {
+        const dogId = urlParts[2];
+        res.statusCode = 302;
+        res.setHeader("Location", "/dogs/" + dogId);
+        return res.end();
+      }
+    }
+    // GET /dogs/:dogId/edit // /dogs/3/edit
+    if (req.method === "GET" && req.url.slice(0, 6) === "/dogs/") {
+      const urlParts = req.url.split("/");
+      if (urlParts.length === 4 && urlParts[3] === "edit") {
+        const dogId = urlParts[2];
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/plain");
+        res.write("Dog edit form page for dogId: ");
+        res.write(dogId);
+        return res.end();
+      }
     }
     // Do not edit below this line
     // Return a 404 response when there is no matching route handler

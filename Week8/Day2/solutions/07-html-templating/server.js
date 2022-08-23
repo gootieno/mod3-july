@@ -130,7 +130,20 @@ const server = http.createServer((req, res) => {
 
     // Phase 4: POST /dogs
     if (req.method === "POST" && req.url === "/dogs") {
-      // Your code here
+      //!!START
+      const { name, age } = req.body;
+
+      const dog = {
+        dogId: getNewDogId(),
+        name,
+        age,
+      };
+      dogs.push(dog);
+
+      res.statusCode = 302;
+      res.setHeader("Location", "/dogs/" + dog.dogId);
+      return res.end();
+      //!!END
     }
 
     // Phase 5: GET /dogs/:dogId/edit
@@ -139,7 +152,29 @@ const server = http.createServer((req, res) => {
       if (urlParts.length === 4 && urlParts[3] === "edit") {
         const dogId = urlParts[2];
         const dog = dogs.find((dog) => dog.dogId == dogId);
-        // Your code here
+        //!!START
+        // Phase 7: Dog Not Found Error Page
+        if (!dog) {
+          const htmlPage = fs.readFileSync("./views/error.html", "utf-8");
+          const resBody = htmlPage.replace(/#{message}/g, "Dog Not Found");
+
+          res.statusCode = 404;
+          res.setHeader("Content-Type", "text/html");
+          res.write(resBody);
+          return res.end();
+        }
+
+        const htmlPage = fs.readFileSync("./views/edit-dog.html", "utf-8");
+        const resBody = htmlPage
+          .replace(/#{dogId}/g, dog.dogId)
+          .replace(/#{name}/g, dog.name)
+          .replace(/#{age}/g, dog.age);
+
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/html");
+        res.write(resBody);
+        return res.end();
+        //!!END
       }
     }
 
@@ -149,7 +184,26 @@ const server = http.createServer((req, res) => {
       if (urlParts.length === 3) {
         const dogId = urlParts[2];
         const dog = dogs.find((dog) => dog.dogId == dogId);
-        // Your code here
+        //!!START
+        // Phase 7: Dog Not Found Error Page
+        if (!dog) {
+          const htmlPage = fs.readFileSync("./views/error.html", "utf-8");
+          const resBody = htmlPage.replace(/#{message}/g, "Dog Not Found");
+
+          res.statusCode = 404;
+          res.setHeader("Content-Type", "text/html");
+          res.write(resBody);
+          return res.end();
+        }
+
+        const { name, age } = req.body;
+        dog.name = name;
+        dog.age = age;
+
+        res.statusCode = 302;
+        res.setHeader("Location", "/dogs/" + dogId);
+        return res.end();
+        //!!END
       }
     }
 
