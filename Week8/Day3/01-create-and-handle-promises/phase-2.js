@@ -1,12 +1,34 @@
 function stretch(timeLeft) {
   // refactor your code from phase 1
   // Your code here
+  return new Promise((resolve, reject) => {
+    if(timeLeft < 1000){
+      reject(new Error('you dont have enough time to stretch'))
+    } else {
+      timeLeft -= 1000
+      setTimeout(() => {
+        console.log('done stretching')
+        resolve(timeLeft)
+      }, 1000)
+    }
+  })
 }
 
 
 function runOnTreadmill(timeLeft) {
   // refactor your code from phase 1
   // Your code here
+  return new Promise((resolve, reject) => {
+    if(timeLeft < 500){
+      reject(new Error('you dont have enough time to run on treadmill'))
+    } else {
+      timeLeft -= 500
+      setTimeout(() => {
+        console.log('done running on treadmill')
+        resolve(timeLeft)
+      }, 500)
+    }
+  })
 }
 
 
@@ -19,6 +41,9 @@ function liftWeights(timeLeft) {
 function workout(totalTime) {
   // refactor your code from phase 1
   // Your code here
+  stretch(totalTime)
+    .then((res) => runOnTreadmill(res))
+    .catch((error) => console.log(error))
 }
 
 /* ============================ TEST YOUR CODE ============================
