@@ -1,57 +1,62 @@
 /****************************** ADD DOG BUTTON ******************************/
-const add = document.getElementById("add");
-add.addEventListener("click", async () => {
-  try {
-    const res = await fetch("https://dog.ceo/api/breeds/image/random");
-    const data = await res.json();
+// SPR practice: Create a function that holds the logic for doing specific 
+// tasks ie: addImage() or buildImageContainer() 
 
-    const url = data.message; // URL of new dog image
-    console.log("url ", url);
+const addImage = () => {
+  const add = document.getElementById("add");
+  add.addEventListener("click", async () => {
+    try {
+      const res = await fetch("https://dog.ceo/api/breeds/image/random");
+      const data = await res.json();
 
-    const urlParts = url.split("/");
+      const url = data.message; // URL of new dog image
+      console.log("url ", url);
 
-    console.log("url parts ", urlParts);
+      const urlParts = url.split("/");
 
-    const breed = urlParts[urlParts.length - 2];
-    console.log("breed ", breed);
-    /*--------------- Get breed (Hint: Parse from URL) ---------------- */
-    // Your code here
-    // <li>
-    //         <figure>
-    //             <img src="https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg" />
-    //             <figcaption>hound-afghan</figcaption>
-    //         </figure>
-    //   </li>
-    /*------------ Create new dog card with the url above ------------- */
-    /* (use the HTML structure for the current dog image in the index.html
-            file to create a new image with the url) */
-    // Your code here
+      console.log("url parts ", urlParts);
 
-    /* Add the new dog card as a child to the ul in the .gallery element */
-    // Your code here
+      const breed = urlParts[urlParts.length - 2];
+      console.log("breed ", breed);
+      /*--------------- Get breed (Hint: Parse from URL) ---------------- */
+      // Your code here
+      // <li>
+      //         <figure>
+      //             <img src="https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg" />
+      //             <figcaption>hound-afghan</figcaption>
+      //         </figure>
+      //   </li>
+      /*------------ Create new dog card with the url above ------------- */
+      /* (use the HTML structure for the current dog image in the index.html
+                file to create a new image with the url) */
+      // Your code here
 
-    // select a live element to append new element to
-    const ul = document.querySelector("ul");
-    console.log("ul ", ul);
-    // create new element and associated children if any
-    const li = document.createElement("li");
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    const figcaption = document.createElement("figcaption");
+      /* Add the new dog card as a child to the ul in the .gallery element */
+      // Your code here
 
-    img.src = url;
-    img.setAttribute("id", "dog-image");
-    img.style.height = "300px";
-    figcaption.innerText = breed;
-    // append them in correct order
-    figure.append(img, figcaption);
-    li.appendChild(figure);
+      // select a live element to append new element to
+      const ul = document.querySelector("ul");
+      console.log("ul ", ul);
+      // create new element and associated children if any
+      const li = document.createElement("li");
+      const figure = document.createElement("figure");
+      const img = document.createElement("img");
+      const figcaption = document.createElement("figcaption");
 
-    ul.appendChild(li);
-  } catch (e) {
-    console.log("Couldn't fetch dog :(");
-  }
-});
+      img.src = url;
+      img.setAttribute("id", "dog-image");
+      img.style.height = "300px";
+      figcaption.innerText = breed;
+      // append them in correct order
+      figure.append(img, figcaption);
+      li.appendChild(figure);
+
+      ul.appendChild(li);
+    } catch (e) {
+      console.log("Couldn't fetch dog :(");
+    }
+  });
+};
 
 /************************** REMOVE FIRST DOG BUTTON **************************/
 const removeFirst = document.getElementById("remove-first");
