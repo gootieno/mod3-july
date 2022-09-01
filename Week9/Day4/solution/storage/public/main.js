@@ -1,35 +1,47 @@
-/* ============================== PHASE 1 + 2 ============================== */
+/* ================================ PHASE 1 ================================ */
 
-// For storing user's theme selection in cookies
+// For storing user's theme selection in the browser
 function storeTheme(themeName) {
   // Your code here
+  localStorage.setItem("themeName", themeName);
 }
 
-// For restoring theme from cookies, if selected by the user in the past
+// For restoring theme, if selected by the user in the past
 function restoreTheme() {
   // Your code here
+  let theme = localStorage.getItem("themeName");
+
+  if (theme) setTheme(theme);
 }
 
-// For clearing theme selection from cookies (reset to default)
+// For clearing theme selection from the browser's storage (reset to default)
+
 function clearTheme() {
   // Your code here
+  localStorage.removeItem("themeName");
 }
 
-/* ================================ PHASE 3 ================================ */
+/* ================================ PHASE 2 ================================ */
 
-// For storing user's display name in cookies
+// For storing user's display name
 function storeName(displayName) {
   // Your code here
+  sessionStorage.setItem("displayName", displayName);
 }
 
-// For restoring user's display name from cookies, if set in the past
+// For restoring user's display name, if set in the past
 function restoreName() {
   // Your code here
+  const name = sessionStorage.getItem("displayName");
+
+  if (name) setInputValue("display-name", name);
 }
 
-// For clearing user's display name from cookies
+// For clearing user's display name from browser storage
 function clearName() {
   // Your code here
+//   sessionStorage.clear(); // removes all session storage items
+  sessionStorage.removeItem("displayName"); // removing a targeted key - val pair
 }
 
 /* ========================================================================= */
